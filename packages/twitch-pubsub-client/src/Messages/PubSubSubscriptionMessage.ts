@@ -12,7 +12,7 @@ export interface PubSubSubscriptionDetail {
 
 /** @private */
 export interface PubSubSubscriptionGiftDetail {
-	context: 'subgift' | 'anonsubgift';
+	context: 'subgift' | 'anonsubgift' | 'resubgift' | 'anonresubgift';
 	recipient_id: string;
 	recipient_user_name: string;
 	recipient_display_name: string;
@@ -46,7 +46,10 @@ export class PubSubSubscriptionMessage {
 	 * The ID of the user subscribing to the channel.
 	 */
 	get userId(): string {
-		return this._data.context === 'subgift' || this._data.context === 'anonsubgift'
+		return this._data.context === 'subgift'
+			|| this._data.context === 'anonsubgift'
+			|| this._data.context === 'resubgift'
+			|| this._data.context === 'anonresubgift'
 			? this._data.recipient_id
 			: this._data.user_id;
 	}
@@ -55,7 +58,10 @@ export class PubSubSubscriptionMessage {
 	 * The name of the user subscribing to the channel.
 	 */
 	get userName(): string {
-		return this._data.context === 'subgift' || this._data.context === 'anonsubgift'
+		return this._data.context === 'subgift'
+			|| this._data.context === 'anonsubgift'
+			|| this._data.context === 'resubgift'
+			|| this._data.context === 'anonresubgift'
 			? this._data.recipient_user_name
 			: this._data.user_name;
 	}
@@ -64,7 +70,10 @@ export class PubSubSubscriptionMessage {
 	 * The display name of the user subscribing to the channel.
 	 */
 	get userDisplayName(): string {
-		return this._data.context === 'subgift' || this._data.context === 'anonsubgift'
+		return this._data.context === 'subgift'
+			|| this._data.context === 'anonsubgift'
+			|| this._data.context === 'resubgift'
+			|| this._data.context === 'anonresubgift'
 			? this._data.recipient_display_name
 			: this._data.display_name;
 	}
@@ -75,7 +84,10 @@ export class PubSubSubscriptionMessage {
 	 * Returns 0 if a gift sub or the streaks months.
 	 */
 	get streakMonths(): number {
-		return this._data.context === 'subgift' || this._data.context === 'anonsubgift'
+		return this._data.context === 'subgift'
+			|| this._data.context === 'anonsubgift'
+			|| this._data.context === 'resubgift'
+			|| this._data.context === 'anonresubgift'
 			? 0
 			: (this._data as PubSubSubscriptionDetail).streak_months;
 	}
@@ -86,7 +98,10 @@ export class PubSubSubscriptionMessage {
 	 * Returns the months if a gift sub or the cumulative months.
 	 */
 	get cumulativeMonths(): number {
-		return this._data.context === 'subgift' || this._data.context === 'anonsubgift'
+		return this._data.context === 'subgift'
+			|| this._data.context === 'anonsubgift'
+			|| this._data.context === 'resubgift'
+			|| this._data.context === 'anonresubgift'
 			? this._data.months
 			: (this._data as PubSubSubscriptionDetail).cumulative_months;
 	}
@@ -134,14 +149,14 @@ export class PubSubSubscriptionMessage {
 	 * Whether the subscription is a gift.
 	 */
 	get isGift(): boolean {
-		return this._data.context === 'subgift';
+		return this._data.context === 'subgift' || this._data.context === 'resubgift';
 	}
 
 	/**
 	 * Whether the subscription is from an anonymous gifter.
 	 */
 	get isAnonymous(): boolean {
-		return this._data.context === 'anonsubgift';
+		return this._data.context === 'anonsubgift' || this._data.context === 'anonresubgift';
 	}
 
 	/**
@@ -177,7 +192,10 @@ export class PubSubSubscriptionMessage {
 	 * Returns null if the subscription is not a gift.
 	 */
 	get giftDuration(): number | null {
-		return this._data.context === 'subgift' || this._data.context === 'anonsubgift'
+		return this._data.context === 'subgift'
+			|| this._data.context === 'resubgift'
+			|| this._data.context === 'anonsubgift'
+			|| this._data.context === 'anonresubgift'
 			? this._data.multi_month_duration
 			: null;
 	}
